@@ -17,7 +17,7 @@ import authRoutes from './routes/authRoutes.js'; // //descomentar para habilitar
 import clienteRoutes from './routes/clienteRoutes.js';
 
 import produtoRoutes from './routes/produtoRoutes.js';
-// import pedidoRoutes from './routes/pedidoRoute.js';
+import pedidoRoutes from './routes/pedidoRoutes.js';
 
 
 // --- CONFIGURAÇÕES ---
