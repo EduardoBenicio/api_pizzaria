@@ -30,6 +30,13 @@ export const findAll = async (idProduto, nomeProduto, valorMin, valorMax, tipo) 
         conditions.push('LOWER(tipo) LIKE ?');
         values.push(`%${tipo.toLowerCase()}%`);
     }
+
+    if (conditions.length > 0) {
+    sql += ' WHERE ' + conditions.join(' AND ');
+  }
+
+  const [rows] = await db.query(sql, values);
+  return rows;
 };
 
 export const create = async (produtoData) => {

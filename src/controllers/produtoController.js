@@ -5,7 +5,7 @@ export const produtoCreateSchema = Joi.object({
     nomeProduto: Joi.string().required().max(25),
     descricao: Joi.string().required().max(100),
     tipo: Joi.string().required().max(15),
-    valor: Joi.string().required().max(6.2),
+    valor: Joi.string().required().max(6),
     imagem: Joi.string().required().max(100)
 });
 
@@ -13,8 +13,8 @@ export const produtoUpdateSchema = Joi.object({
     nomeProduto: Joi.string().required().max(25),
     descricao: Joi.string().required().max(100),
     tipo: Joi.string().required().max(15),
-    valor: Joi.string().required().max(6.2),
-    imagem: Joi.string().required().max(100)
+    valor: Joi.string().required().max(6),
+    imagem: Joi.string().allow(" ").max(100)
 }).min(1);
 
 export const listarProdutos = async (req, res) => {
