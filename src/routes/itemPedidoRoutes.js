@@ -8,16 +8,16 @@ import authMiddleware from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 
-router.post('/', validate(itemPedidoCreateSchema), itemPedidoController.adicionarItemPedido);
+router.post('/', validate(itemPedidoCreateSchema), itemPedidoController.adicionaritempedido);
 
 router.use(authMiddleware);
 
 
-router.get('/', itemPedidoController.listarItemPedidos);
+router.get('/', itemPedidoController.listaritempedidos);
 
 
-router.put('/:idItem', validate(itemPedidoUpdateSchema), itemPedidoController.atualizarItemPedido);
+router.put('/:idItem', validate(itemPedidoUpdateSchema), itemPedidoController.atualizaritempedido);
 
 
-router.delete('/:idItem', itemPedidoController.deletarItemPedido);
+router.delete('/:idItem', itemPedidoController.deletaritempedido);
 export default router;

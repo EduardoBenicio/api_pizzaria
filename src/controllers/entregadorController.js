@@ -1,4 +1,4 @@
-import * as produtoService from '../services/entregadorService.js';
+import * as entregadorService from '../services/entregadorService.js';
 import Joi from 'joi';
 
 export const produtoCreateSchema = Joi.object({
