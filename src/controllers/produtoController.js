@@ -33,7 +33,7 @@ export const adicionarProduto = async (req, res) => {
     const novoProduto = await produtoService.create(req.body);
     res.status(201).json({ message: 'Produto adicionado com sucesso', data: novoProduto });
   } catch (err) {
-    console.error('Erro ao adicionar cliente:', err);
+    console.error('Erro ao adicionar produto:', err);
     if (err.code === 'ER_DUP_ENTRY') {
         return res.status(409).json({ error: 'IdProduto já cadastrado.' });
     }
