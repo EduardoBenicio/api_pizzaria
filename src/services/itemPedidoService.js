@@ -36,13 +36,13 @@ export const findAll = async (idItem, qtdeItens, valorParcial, idProduto, idPedi
   return rows;
 };
 
-export const create = async (itemPedidoData) => {
-    await db.query('INSERT INTO itempedido SET ?', itemPedidoData);
-    return itemPedidoData;
+export const create = async (itempedidoData) => {
+    await db.query('INSERT INTO itempedido SET ?', itempedidoData);
+    return itempedidoData;
 }
 
-export const update = async (idItem, itemPedidoData) => {
-    const [result] = await db.query('UPDATE itempedido SET ? WHERE idItem = ?', [itemPedidoData, idItem]);
+export const update = async (idItem, itempedidoData) => {
+    const [result] = await db.query('UPDATE itempedido SET ? WHERE idItem = ?', [itempedidoData, idItem]);
     return result.affectedRows > 0;
     
 }

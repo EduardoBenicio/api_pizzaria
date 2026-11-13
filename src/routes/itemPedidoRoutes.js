@@ -1,23 +1,23 @@
 import express from 'express';
-import * as itemPedidoController from '../controllers/itemPedidoController.js';
+import * as itempedidoController from '../controllers/itempedidoController.js';
 import validate from '../middlewares/validate.js';
-import { itemPedidoCreateSchema, itemPedidoUpdateSchema } from '../controllers/itemPedidoController.js';
+import { itempedidoCreateSchema, itempedidoUpdateSchema } from '../controllers/itempedidoController.js';
 
 import authMiddleware from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
 
-router.post('/', validate(itemPedidoCreateSchema), itemPedidoController.adicionaritempedido);
+router.post('/', validate(itempedidoCreateSchema), itempedidoController.adicionaritempedido);
 
 router.use(authMiddleware);
 
 
-router.get('/', itemPedidoController.listaritempedidos);
+router.get('/', itempedidoController.listaritempedidos);
 
 
-router.put('/:idItem', validate(itemPedidoUpdateSchema), itemPedidoController.atualizaritempedido);
+router.put('/:idItem', validate(itempedidoUpdateSchema), itempedidoController.atualizaritempedido);
 
 
-router.delete('/:idItem', itemPedidoController.deletaritempedido);
+router.delete('/:idItem', itempedidoController.deletaritempedido);
 export default router;
