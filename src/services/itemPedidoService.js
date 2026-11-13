@@ -1,7 +1,7 @@
 import db from '../db/db.js';
 import bcrypt from 'bcrypt';
 
-export const findAll = async (idItem, qtdeItens, valorParcial, idProduto, idPedido) => {
+export const findAll = async (idItem, qtdeItens, valorParcial, valorMin, valorMax, idProduto, idPedido) => {
     let sql = 'SELECT * FROM itempedido';
     const conditions = [];
     const values = [];
@@ -21,17 +21,29 @@ export const findAll = async (idItem, qtdeItens, valorParcial, idProduto, idPedi
         values.push(valorParcial);
     }
 
+    if (valorMin) {
+        conditions.push('valor >= ?');
+        values.push(valorMin);
+    }
+
+    if (valorMax) {
+        conditions.push('valor <= ?');
+        values.push(valorMax);
+    }
     if (idProduto) {
         conditions.push('idProduto = ?');
-        values.push(idProduto);''
+        values.push(idProduto);
     }
 
     if (idPedido) {
         conditions.push('idPedido = ?');
-        values.push(idPedido);''
+        values.push(idPedido);
     }
 
 
+  if (conditions.length > 0) {
+    sql += ' WHERE ' + conditions.join(' AND ');
+  }
   const [rows] = await db.query(sql, values);
   return rows;
 };

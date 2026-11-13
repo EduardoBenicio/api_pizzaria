@@ -3,7 +3,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import * as clienteService from '../services/clienteService.js';
 export const login = async (req, res) => {
-    const { cpf, senha } = req.body;
+    const { cpf, senha } = req.body || {};
+    if (!cpf || !senha) return res.status(400).json({ message: 'Informe cpf e senha' });
     try {
         // 1. Verificar se o usuário existe no banco de dados
         const clientes = await clienteService.findAll(cpf);
@@ -15,7 +16,7 @@ export const login = async (req, res) => {
         // 2. Comparar a senha enviada com o hash salvo no banco
         const senhaValida = await bcrypt.compare(senha, cliente.senha);
         if(!senhaValida) {
-            return res.status(402).json({ message: "Credenciais inválidas" });
+            return res.status(401).json({ message: "Credenciais inválidas" });
     }
  
 // 3. Gerar o Token JWT

@@ -1,71 +1,95 @@
-// src/index.js
-//Primeira linha do seu projeto. Carrega as variáveis de ambiente antes de qualquer outro código.
+
 import 'dotenv/config';
 
-//Sintaxe de importação para todas as dependências.
 import express from 'express';
-import helmet from 'helmet'; 
+import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-
-// // //Importando as rotas.
-// // Importa as rotas de autenticação
-import authRoutes from './routes/authRoutes.js'; // //descomentar para habilitar
+// IMPORTAÇÃO DAS ROTAS
+import authRoutes from './routes/authRoutes.js';
 import clienteRoutes from './routes/clienteRoutes.js';
-import itemPedidoRoutes from './routes/itemPedidoRoutes.js';
+import itemPedidoRoutes from './routes/itempedidoRoutes.js';
 import entregadorRoutes from './routes/entregadorRoutes.js';
-
 import produtoRoutes from './routes/produtoRoutes.js';
 import pedidoRoutes from './routes/pedidoRoutes.js';
 
-
-// --- CONFIGURAÇÕES ---
+// CONFIGURAÇÕES
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 const corsOptions = {
-    origin: ['http://localhost:3333', 'https://meudominio.com'],
+    origin: [
+        'http://localhost:3333',
+        'https://meudominio.com'
+    ],
     methods: 'GET,POST,PUT,PATCH,DELETE',
-    credentials: true,
+    credentials: true
 };
 
-// --- INICIALIZAÇÃO DO APP ---
+// INICIALIZAÇÃO DO EXPRESS
 const app = express();
 
-// --- MIDDLEWARES ---
+// MIDDLEWARES
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.json());
-//Servindo pasta 'public' para arquivos (CSS, JS, imagens).
-app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// --- ROTAS ---
-// Rota principal que serve a página HTML.
+// ARQUIVOS ESTÁTICOS
+app.use(express.static(
+    path.join(__dirname, '..', 'public')
+));
+
+// ROTA PRINCIPAL
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'pages', 'home.html'));
+    res.sendFile(
+        path.join(__dirname, '..', 'pages', 'home.html')
+    );
 });
 
-//Rotas da API prefixadas, isso evita conflitos e deixa claro quais rotas pertencem à API.
+// ROTAS DA API
 const apiPrefix = '/api';
-// Rotas gerais da API (ex: /api/sandro)
-app.use(`${apiPrefix}/itempedido`, itemPedidoRoutes);
-app.use(`${apiPrefix}/clientes`, clienteRoutes); // ex: /api/clientes/
-app.use(`${apiPrefix}/login`, authRoutes); //Rota de login ex:/api/login
-app.use(`${apiPrefix}/produtos`, produtoRoutes); // ex: /api/produtos/
-app.use(`${apiPrefix}/pedidos`, pedidoRoutes);   // ex: /api/pedidos/ (exige token)
 
-// --- TRATAMENTO DE ERROS ---
-// Um middleware de erro centralizado.
+// Itens do pedido
+app.use(`${apiPrefix}/itempedido`, itemPedidoRoutes);
+
+// Entregadores
+app.use(`${apiPrefix}/entregador`, entregadorRoutes);
+
+// Clientes
+app.use(`${apiPrefix}/clientes`, clienteRoutes);
+
+// Login
+app.use(`${apiPrefix}/login`, authRoutes);
+
+// Produtos
+app.use(`${apiPrefix}/produtos`, produtoRoutes);
+
+// Pedidos
+app.use(`${apiPrefix}/pedidos`, pedidoRoutes);
+
+// ROTA NÃO ENCONTRADA
+app.use((req, res) => {
+    res.status(404).json({
+        erro: 'Rota não encontrada'
+    });
+});
+
+// TRATAMENTO DE ERROS
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send('Algo deu errado no servidor!');
+
+    res.status(500).json({
+        erro: 'Erro interno do servidor'
+    });
 });
 
-// --- INICIALIZAÇÃO DO SERVIDOR ---
+// INICIALIZAÇÃO DO SERVIDOR
 const PORTA = process.env.PORT || 3333;
+
 app.listen(PORTA, () => {
     console.log(`Servidor rodando na porta ${PORTA}`);
 });

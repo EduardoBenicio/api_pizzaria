@@ -1,14 +1,14 @@
 import * as itempedidoService from '../services/itempedidoService.js';
 import Joi from 'joi';
 
-export const produtoCreateSchema = Joi.object({
+export const itempedidoCreateSchema = Joi.object({
     qtdeItens: Joi.string().required().max(200),
     valorParcial: Joi.string().required().max(10),
     idProduto: Joi.string().required().max(15),
     idPedido: Joi.string().required().max(15),
 });
 
-export const produtoUpdateSchema = Joi.object({
+export const itempedidoUpdateSchema = Joi.object({
     qtdeItens: Joi.string().required().max(200),
     valorParcial: Joi.string().required().max(10),
     idProduto: Joi.string().required().max(15),
@@ -18,7 +18,7 @@ export const produtoUpdateSchema = Joi.object({
 export const listaritempedidos = async (req, res) => {
     try {
       const { idItem, qtdeItens, valorParcial, idProduto, idPedido } = req.query;
-      const produtos = await produtoService.findAll(idItem, qtdeItens, valorParcial, idProduto, idPedido);
+      const itens = await itempedidoService.findAll(idItem, qtdeItens, valorParcial, idProduto, idPedido);
       res.json(itens);
     } catch (err) {
       console.error('Erro ao buscar itens:', err);
@@ -28,7 +28,7 @@ export const listaritempedidos = async (req, res) => {
 
 export const adicionaritempedido = async (req, res) => {
   try {
-    const novoItem = await itemPedidoService.create(req.body);
+    const novoItem = await itempedidoService.create(req.body);
     res.status(201).json({ message: 'Item adicionado com sucesso', data: novoItem });
   } catch (err) {
     console.error('Erro ao adicionar item:', err);
@@ -41,8 +41,8 @@ export const adicionaritempedido = async (req, res) => {
 
 export const atualizaritempedido = async (req, res) => {
   try {
-    const { idItem} = req.params;
-    const updated = await itemPedidoService.update(idItem, req.body);
+    const { idItem } = req.params;
+    const updated = await itempedidoService.update(idItem, req.body);
     if (!updated) {
       return res.status(404).json({ error: 'item não encontrado' });
     }
@@ -56,7 +56,7 @@ export const atualizaritempedido = async (req, res) => {
 export const deletaritempedido = async (req, res) => {
   try {
     const { idItem } = req.params;
-    const deleted = await itemPedidoService.remove(idItem);
+    const deleted = await itempedidoService.remove(idItem);
     if (!deleted) {
       return res.status(404).json({ error: 'Item não encontrado' });
     }

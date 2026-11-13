@@ -1,13 +1,13 @@
 import * as entregadorService from '../services/entregadorService.js';
 import Joi from 'joi';
 
-export const produtoCreateSchema = Joi.object({
-    nomeEntrega: Joi.string().required().max(50),
+export const entregadorCreateSchema = Joi.object({
+    nomeEntregador: Joi.string().required().max(50),
     telefone: Joi.string().required().max(20),
 });
 
-export const produtoUpdateSchema = Joi.object({
-    nomeEntrega: Joi.string().required().max(50),
+export const entregadorUpdateSchema = Joi.object({
+    nomeEntregador: Joi.string().required().max(50),
     telefone: Joi.string().required().max(20),
 }).min(1);
 
@@ -38,7 +38,7 @@ export const adicionarEntregador = async (req, res) => {
 export const atualizarEntregador = async (req, res) => {
   try {
     const { idEntregador} = req.params;
-    const updated = await entregadorService.update(idEntregadpr, req.body);
+    const updated = await entregadorService.update(idEntregador, req.body);
     if (!updated) {
       return res.status(404).json({ error: 'Entregador não encontrado' });
     }

@@ -29,10 +29,16 @@ export const findAll = async (idEntregador, nomeEntregador, telefone) => {
   return rows;
 };
 
+
 export const create = async (entregadorData) => {
-    await db.query('INSERT INTO produto SET ?', produtoData);
-    return produtoData;
-}
+    await db.query(
+        'INSERT INTO entregador SET ?',
+        entregadorData
+    );
+
+    return entregadorData;
+};
+
 
 export const update = async (idEntregador, entregadorData) => {
     const [result] = await db.query('UPDATE entregador SET ? WHERE idEntregador = ?', [entregadorData, idEntregador]);

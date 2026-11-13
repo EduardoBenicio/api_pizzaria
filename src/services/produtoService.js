@@ -23,7 +23,7 @@ export const findAll = async (idProduto, nomeProduto, valorMin, valorMax, tipo) 
 
     if (valorMax) {
         conditions.push('valor <= ?');
-        values.push(valorMax);''
+        values.push(valorMax);
     }
 
     if (tipo) {

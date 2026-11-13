@@ -13,11 +13,11 @@ router.post('/', validate(entregadorCreateSchema), entregadorController.adiciona
 router.use(authMiddleware);
 
 
-router.get('/', entregadorController.listarEntregador);
+router.get('/', entregadorController.listarEntregadores);
 
 
-router.put('/:idItem', validate(entregadorUpdateSchema), entregadorController.atualizarEntregador);
+router.put('/:idEntregador', validate(entregadorUpdateSchema), entregadorController.atualizarEntregador);
 
 
-router.delete('/:idItem', entregadorController.deletarEntregador);
+router.delete('/:idEntregador', entregadorController.deletarEntregador);
 export default router;
